@@ -22,7 +22,8 @@ namespace Elevator.Agent
                 .ConfigureLogging(ConfigureLogging)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                        .UseUrls("http://*:80");
                 });
         }
 
