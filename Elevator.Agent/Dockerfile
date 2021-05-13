@@ -26,5 +26,5 @@ COPY --from=publish /app/publish .
 WORKDIR /
 ARG src="/Program Files"
 COPY --from=aspnet ${src} ${src}
-
+WORKDIR /app
 ENTRYPOINT ["/Program Files/dotnet/dotnet.exe", "Elevator.Agent.dll"]
