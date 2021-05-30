@@ -26,6 +26,12 @@ namespace Elevator.Agent
 
             services.AddSingleton<StatusService>();
 
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin",
+                    options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Elevator.Agent", Version = "v1" });
@@ -45,7 +51,7 @@ namespace Elevator.Agent
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseEndpoints(endpoints =>
             {
