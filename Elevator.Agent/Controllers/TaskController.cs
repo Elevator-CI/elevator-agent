@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Elevator.Agent.Controllers
 {
     [ApiController]
-    [Route("Task")]
+    [Route("task")]
     public class TaskController: Controller
     {
         private readonly TaskService taskService;
