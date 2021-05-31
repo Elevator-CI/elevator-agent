@@ -23,6 +23,7 @@ RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[S
 
 RUN choco install -y dotnet-5.0-sdk
 RUN choco install -y nodejs
+RUN choco install -y git
 
 WORKDIR /app
 COPY --from=publish /app/publish .
