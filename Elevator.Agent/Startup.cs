@@ -25,6 +25,7 @@ namespace Elevator.Agent
             services.AddControllers();
 
             services.AddSingleton<StatusService>();
+            services.AddSingleton<TaskService>();
 
             services.AddCors(c =>
             {
