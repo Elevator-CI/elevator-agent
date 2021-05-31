@@ -21,20 +21,26 @@ namespace Elevator.Agent.Services
         private readonly StatusService statusService;
         private readonly ILoggerFactory loggerFactory;
         private readonly TaskService taskService;
+        private readonly ILogger<ExecuteService> logger;
 
         private Timer timer;
 
         private bool inProgress;
 
-        public ExecuteService(StatusService statusService, ILoggerFactory loggerFactory, TaskService taskService)
+        public ExecuteService(StatusService statusService, ILoggerFactory loggerFactory, TaskService taskService, ILogger<ExecuteService> logger)
         {
             this.statusService = statusService;
             this.loggerFactory = loggerFactory;
             this.taskService = taskService;
+            this.logger = logger;
         }
 
         private async Task ProcessTask()
         {
+            logger.LogInformation("Start processing task");
+            logger.LogInformation($"inProgress {inProgress}");
+            logger.LogInformation($"taskService.Task == null {taskService.Task == null}");
+            logger.LogInformation($"statusService.Status {statusService.Status}");
             if (inProgress || taskService.Task == null || statusService.Status == Status.Finished)
                 return;
 
@@ -50,8 +56,10 @@ namespace Elevator.Agent.Services
 
                 taskService.BuildTaskResult.Status = Models.TaskStatus.Success;
             }
-            catch
+            catch (Exception e)
             {
+                logger.LogError("Failed");
+                logger.LogError(e.Message);
                 taskService.BuildTaskResult.Status = Models.TaskStatus.Failed;
             }
             finally
