@@ -79,7 +79,7 @@ namespace Elevator.Agent.Services
             var executionResult = await shellRunner.RunAsync(args);
             if (!executionResult.IsSuccessful)
             {
-                
+                logger.LogError("Cannot execute command");
                 AddLog($"Cannot execute command", executionResult.Error);
                 throw new Exception();
             }
@@ -99,7 +99,7 @@ namespace Elevator.Agent.Services
             var gitRepository = await gitProject.CloneAsync();
             if (!gitRepository.IsSuccessful)
             {
-                logger.LogError("Can not clone project");
+                logger.LogError($"Can not clone project. {gitRepository.Error}");
                 AddLog("Can not clone project", gitRepository.Error);
                 throw new Exception();
             }
