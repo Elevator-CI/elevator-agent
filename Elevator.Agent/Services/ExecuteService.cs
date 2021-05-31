@@ -44,6 +44,7 @@ namespace Elevator.Agent.Services
             if (inProgress || taskService.Task == null || statusService.Status == Status.Finished)
                 return;
 
+            logger.LogInformation("Really processing");
             inProgress = true;
             try
             {
@@ -78,6 +79,7 @@ namespace Elevator.Agent.Services
             var executionResult = await shellRunner.RunAsync(args);
             if (!executionResult.IsSuccessful)
             {
+                
                 AddLog($"Cannot execute command", executionResult.Error);
                 throw new Exception();
             }
@@ -97,6 +99,7 @@ namespace Elevator.Agent.Services
             var gitRepository = await gitProject.CloneAsync();
             if (!gitRepository.IsSuccessful)
             {
+                logger.LogError("Can not clone project");
                 AddLog("Can not clone project", gitRepository.Error);
                 throw new Exception();
             }
@@ -104,8 +107,13 @@ namespace Elevator.Agent.Services
 
         private void PrepareWorkingDirectory()
         {
+            logger.LogInformation("PrepareWorkingDirectory");
             if (Directory.Exists(WorkingDirectoryPath))
+            {
+                logger.LogInformation("removing directory");
                 Directory.Delete(WorkingDirectoryPath, true);
+            }
+            logger.LogInformation("Creating working directory");
             Directory.CreateDirectory(WorkingDirectoryPath);
         }
 
