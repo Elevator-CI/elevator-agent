@@ -15,16 +15,14 @@ namespace Elevator.Agent.Services
 {
     public class TaskService
     {
-        
         public BuildTaskResult BuildTaskResult { get; private set; }
         public BuildTask Task { get; private set; }
 
+        private readonly StatusService statusService;
 
-
-        public TaskService(StatusService statusService, ILoggerFactory loggerFactory)
+        public TaskService(StatusService statusService)
         {
             this.statusService = statusService;
-            this.loggerFactory = loggerFactory;
         }
 
         public async Task StartTask(BuildTask task)
@@ -34,14 +32,12 @@ namespace Elevator.Agent.Services
 
             statusService.Status = Status.Working;
 
-            this.Task = task;
+            Task = task;
             BuildTaskResult = new BuildTaskResult
             {
                 Logs = ImmutableList<string>.Empty,
                 Status = TaskStatus.InProgress
             };
-
-            await ProcessTask();
         }
 
         
