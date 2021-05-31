@@ -27,6 +27,8 @@ namespace Elevator.Agent
             services.AddSingleton<StatusService>();
             services.AddSingleton<TaskService>();
 
+            services.AddHostedService<ExecuteService>();
+
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin",
