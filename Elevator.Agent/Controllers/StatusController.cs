@@ -14,10 +14,12 @@ namespace Elevator.Agent.Controllers
     public class StatusController: Controller
     {
         private readonly StatusService statusService;
+        private readonly TaskService taskService;
 
-        public StatusController(StatusService statusService)
+        public StatusController(StatusService statusService, TaskService taskService)
         {
             this.statusService = statusService;
+            this.taskService = taskService;
         }
 
         public async Task<OperationResult<Status>> GetStatusAsync()
@@ -26,12 +28,12 @@ namespace Elevator.Agent.Controllers
         }
 
         [HttpPost("free")]
-        public async Task<VoidOperationResult> FreeAsync()
+        public async Task<OperationResult<BuildTaskResult>> FreeAsync()
         {
             if (statusService.Status != Status.Finished)
-                return VoidOperationResult.Failed("Agent is not in finished state");
+                return OperationResult<BuildTaskResult>.Failed("Agent is not in finished state");
             statusService.Status = Status.Free;
-            return VoidOperationResult.Success();
+            return OperationResult<BuildTaskResult>.Success(taskService.BuildTaskResult);
         }
     }
 }

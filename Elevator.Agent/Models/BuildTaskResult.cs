@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 
 namespace Elevator.Agent.Models
 {
     public class BuildTaskResult
     {
         public ImmutableList<string> Logs { get; set; }
+
+        public TaskStatus Status { get; set; }
+    }
+
+    public enum TaskStatus
+    {
+        InProgress,
+        Success,
+        Failed
     }
 }

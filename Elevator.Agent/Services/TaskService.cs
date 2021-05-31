@@ -9,6 +9,7 @@ using Elevator.Agent.Models;
 using Git;
 using Microsoft.Extensions.Logging;
 using Shell;
+using TaskStatus = Elevator.Agent.Models.TaskStatus;
 
 namespace Elevator.Agent.Services
 {
@@ -40,7 +41,8 @@ namespace Elevator.Agent.Services
             this.task = task;
             BuildTaskResult = new BuildTaskResult
             {
-                Logs = ImmutableList<string>.Empty
+                Logs = ImmutableList<string>.Empty,
+                Status = TaskStatus.InProgress
             };
 
             await ProcessTask();
@@ -56,6 +58,12 @@ namespace Elevator.Agent.Services
                 {
                     await ExecuteCommandAsync(buildCommand);
                 }
+
+                BuildTaskResult.Status = TaskStatus.Success;
+            }
+            catch
+            {
+                BuildTaskResult.Status = TaskStatus.Failed;
             }
             finally
             {
