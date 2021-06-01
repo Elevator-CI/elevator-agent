@@ -24,6 +24,7 @@ RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[S
 RUN choco install -y dotnet-5.0-sdk
 RUN choco install -y nodejs
 RUN choco install -y git
+RUN dotnet nuget add source https://api.nuget.org/v3/index.json
 
 WORKDIR /app
 COPY --from=publish /app/publish .
