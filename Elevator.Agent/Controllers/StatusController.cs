@@ -22,9 +22,12 @@ namespace Elevator.Agent.Controllers
             this.taskService = taskService;
         }
 
-        public async Task<OperationResult<Status>> GetStatusAsync()
+        public async Task<OperationResult<StatusResponse>> GetStatusAsync()
         {
-            return OperationResult<Status>.Success(statusService.Status);
+            return OperationResult<StatusResponse>.Success(new StatusResponse
+            {
+                Status = statusService.Status.ToString()
+            });
         }
 
         [HttpPost("free")]

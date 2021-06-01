@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace Elevator.Agent
 {
@@ -22,7 +23,11 @@ namespace Elevator.Agent
         {
             services.AddLogging();
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
             services.AddSingleton<StatusService>();
             services.AddSingleton<TaskService>();
