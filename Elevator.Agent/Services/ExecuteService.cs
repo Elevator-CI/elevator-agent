@@ -83,7 +83,7 @@ namespace Elevator.Agent.Services
                 AddLog($"Cannot execute command", executionResult.Error);
                 throw new Exception();
             }
-            AddLog(await executionResult.Value.Output.ReadToEndAsync());
+            AddLog((await executionResult.Value.Output.ReadToEndAsync()).Split('\n'));
         }
 
         private ShellRunnerArgs ConvertBuildCommandToShellRunnerArgs(BuildCommand buildCommand)
